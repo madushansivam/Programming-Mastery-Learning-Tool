@@ -35,20 +35,32 @@
 
       <form id="register-form" class="auth-form hidden">
         <div class="form-group">
-          <label for="register-name">Full Name</label>
-          <input type="text" id="register-name" required>
+          <label for="register-fullname">Full Name:</label>
+          <input type="text" id="register-fullname" required>
+        </div>
+        <div class="form-group">
+          <label for="register-initials">Name with Initials:</label>
+          <input type="text" id="register-initials" required>
+        </div>
+        <div class="form-group">
+          <label for="register-index">Index Number:</label>
+          <input type="text" id="register-index" required>
+        </div>
+        <div class="form-group">
+          <label for="register-batch">Batch:</label>
+          <input type="text" id="register-batch" placeholder="e.g. 2023/2024" required>
+        </div>
+        <div class="form-group">
+          <label for="register-class">Year:</label>
+          <select id="register-class" required>
+            <option value="">Select Year</option>
+            <option value="HNDIT Year 1">1st Year</option>
+            <option value="HNDIT Year 2">2nd Year</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="register-username">Username</label>
           <input type="text" id="register-username" required>
-        </div>
-        <div class="form-group">
-          <label for="register-class">Class Year</label>
-          <select id="register-class" required>
-            <option value="">Select Year</option>
-            <option value="HNDIT Year 1">HNDIT Year 1</option>
-            <option value="HNDIT Year 2">HNDIT Year 2</option>
-          </select>
         </div>
         <div class="form-group">
           <label for="register-password">Password</label>
@@ -104,6 +116,84 @@
           document.getElementById('login-form').dispatchEvent(new Event('submit'));
         }
       });
+      
+      // Modify the registerUser function to handle new fields
+      document.getElementById('register-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const fullName = document.getElementById('register-fullname').value;
+        const nameWithInitials = document.getElementById('register-initials').value;
+        const indexNumber = document.getElementById('register-index').value;
+        const batch = document.getElementById('register-batch').value;
+        const year = document.getElementById('register-class').value;
+        const username = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+        
+        // Validate passwords match
+        if (password !== confirmPassword) {
+          showMessage('register-message', 'Passwords do not match!', 'error');
+          return;
+        }
+        
+        // Create user object with all fields
+        const userData = {
+          fullName: fullName,
+          nameWithInitials: nameWithInitials,
+          indexNumber: indexNumber,
+          batch: batch,
+          classYear: year,
+          username: username,
+          password: password
+        };
+        
+        // Register the user with extended data
+        registerUserExtended(userData);
+      });
+      
+      // Extended register function to handle additional fields
+      function registerUserExtended(userData) {
+        // Get existing users
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Check if username already exists
+        if (users.some(user => user.username.toLowerCase() === userData.username.toLowerCase())) {
+          showMessage('register-message', 'Username already exists! Please choose another.', 'error');
+          return;
+        }
+        
+        // Create new user object
+        const newUser = {
+          id: generateID(),
+          fullName: userData.fullName,
+          nameWithInitials: userData.nameWithInitials,
+          indexNumber: userData.indexNumber,
+          batch: userData.batch,
+          classYear: userData.classYear,
+          name: userData.fullName, // For compatibility with existing code
+          username: userData.username,
+          password: userData.password,
+          progress: {},
+          notes: [],
+          streak: 0,
+          lastLogin: Date.now(),
+          feedbacks: [],
+          completedTutorials: [],
+          savedCode: []
+        };
+        
+        // Add to users array and save
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Set as current user
+        localStorage.setItem('currentUser', newUser.id);
+        
+        showMessage('register-message', 'Registration successful!', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      }
     });
   </script>
 </body>
