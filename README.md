@@ -1,10 +1,6 @@
 # Programming Mastery Learning Tool
 
 <p align="center">
-  <img src="https://via.placeholder.com/150?text=PMLT" alt="Programming Mastery Learning Tool Logo" width="150"/>
-</p>
-
-<p align="center">
   <a href="https://github.com/madushansivam/Programming-Mastery-Learning-Tool/stargazers"><img src="https://img.shields.io/github/stars/madushansivam/Programming-Mastery-Learning-Tool?style=for-the-badge" alt="Stars Badge"/></a>
   <a href="https://github.com/madushansivam/Programming-Mastery-Learning-Tool/network/members"><img src="https://img.shields.io/github/forks/madushansivam/Programming-Mastery-Learning-Tool?style=for-the-badge" alt="Forks Badge"/></a>
   <a href="https://github.com/madushansivam/Programming-Mastery-Learning-Tool/pulls"><img src="https://img.shields.io/github/issues-pr/madushansivam/Programming-Mastery-Learning-Tool?style=for-the-badge" alt="Pull Requests Badge"/></a>
